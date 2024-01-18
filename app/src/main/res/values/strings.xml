@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Wheather App</string>
+    <string name="api_key">xxxxx</string>
+
+</resources>
