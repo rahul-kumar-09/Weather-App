@@ -3,6 +3,8 @@ package com.programmingz.wheatherapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.SearchView
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.programmingz.wheatherapp.data.WeatherApp
 import com.programmingz.wheatherapp.databinding.ActivityMainBinding
 import com.programmingz.wheatherapp.util.ApiInterface
@@ -60,30 +62,54 @@ class MainActivity : AppCompatActivity() {
             override fun onResponse(call: Call<WeatherApp>, response: Response<WeatherApp>) {
                 val responseBody = response.body()
                 if (response.isSuccessful && response.body() != null){
-                    val temperature = responseBody?.main?.temp.toString()
-                    val maxTamp = responseBody?.main?.temp_max.toString()
-                    val minTamp = responseBody?.main?.temp_min.toString()
+                   val temperature = responseBody?.main?.temp.toString()
+                    val humidity = responseBody?.main?.humidity
+                    val windSpeed = responseBody?.wind?.speed
+                    val sunRise = responseBody?.sys?.sunrise
+                    val sunSet = responseBody?.sys?.sunset
+                    val seaLevel = responseBody?.main?.pressure
                     val condition = responseBody?.weather?.firstOrNull()?.main?: "unknown"
-                   // Log.d("TAG", "onResponse: $temperature")
+                    val maxTemp = responseBody?.main?.temp_max
+                    val minTamp = responseBody?.main?.temp_min
+
                     binding.temp.text = "$temperature °C"
-                    binding.minTamp.text = "Min  Temp $minTamp"
-                    binding.maxTemp.text = "Max Temp $maxTamp"
-                    binding.humidity.text = "$condition"
-                    binding.location.text = " $cityName"
+                    binding.weather.text = condition
+                    binding.max.text = "Max Temp $maxTemp °C"
+                    binding.min.text = "Min Temp $minTamp °C"
+                    binding.humidity.text = "$humidity %"
+                    binding.wind.text = "$windSpeed m/s"
+                    binding.sunrise.text = "$sunRise"
+                    binding.sunset.text = "$sunSet"
+                    binding.sea.text = "$seaLevel hPa"
+                    binding.condition.text = condition
+                    binding.cityName.text = cityName
                     binding.day.text = dayData(System.currentTimeMillis())
                     binding.date.text = date()
+
+                    weatherCondition(condition)
+
                 }
             }
 
             override fun onFailure(call: Call<WeatherApp>, t: Throwable) {
-
+                Toast.makeText(applicationContext, "Some error occur", Toast.LENGTH_SHORT).show()
             }
         })
 
     }
 
+    private fun weatherCondition(condition: String) {
+        when(condition){
+            "SMOKE", "CLOUDS", "SUNNY" -> {
+                binding.weatherBackground.setBackgroundResource(R.drawable.cloudimg)
+                binding.lottieAnimationView.setAnimation(R.raw.cloud)
+            }
+        }
+
+    }
+
     private fun date(): String? {
-        val day = SimpleDateFormat("dd mm yy",Locale.getDefault())
+        val day = SimpleDateFormat("DD MMM YYYY",Locale.getDefault())
         return day.format((Date()))
     }
 
