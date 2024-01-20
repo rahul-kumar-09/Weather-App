@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
+    <color name="black">#FFFFFFFF</color>
     <color name="white">#FFFFFFFF</color>
     <color name="blue">#2196F3</color>
+    <color name="dark_purple">#21182b</color>
+    <color name="purple">#8a57c2</color>
+    <color name="blue_purple">#16366f</color>
 </resources>

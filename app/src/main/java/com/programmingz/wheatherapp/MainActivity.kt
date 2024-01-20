@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
             override fun onResponse(call: Call<WeatherApp>, response: Response<WeatherApp>) {
                 val responseBody = response.body()
                 if (response.isSuccessful && response.body() != null){
-                   val temperature = responseBody?.main?.temp.toString()
+                    val temperature = responseBody?.main?.temp.toString()
                     val humidity = responseBody?.main?.humidity
                     val windSpeed = responseBody?.wind?.speed
                     val sunRise = responseBody?.sys?.sunrise
