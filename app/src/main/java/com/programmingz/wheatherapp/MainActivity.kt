@@ -13,7 +13,9 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.text.DateFormat
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
@@ -84,7 +86,7 @@ class MainActivity : AppCompatActivity() {
                     binding.condition.text = condition
                     binding.cityName.text = cityName
                     binding.day.text = dayData(System.currentTimeMillis())
-                    binding.date.text = date()
+                   date()
 
                     weatherCondition(condition)
 
@@ -108,9 +110,10 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun date(): String? {
-        val day = SimpleDateFormat("DD MMM YYYY",Locale.getDefault())
-        return day.format((Date()))
+    private fun date() {
+        val calender = Calendar.getInstance().time
+        val dateFormat = DateFormat.getDateInstance().format(calender)
+        binding.date.text = dateFormat
     }
 
     fun dayData(timeStap: Long): String{
